@@ -1,0 +1,25 @@
+.section {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+@media screen and (min-width: 768px) {
+    .section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+}
+
+
+.gallery {
+    height: 100%;
+    justify-content: center;
+}
+
+@media screen and (min-width: 768px) {
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        margin: -15px;
+    }
+}

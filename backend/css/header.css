@@ -1,0 +1,269 @@
+.screen-background {
+    /* padding-top: 46px; */
+    min-width: 320px;
+    height: 170px;
+    animation: show 2s;
+
+
+    @keyframes show {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+    center / auto no-repeat url('../images/header/filmoteka-mobile-x1.jpg'),
+    #000103;
+
+    @media screen and(max-width: 320px) {
+
+        @media screen and (min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx) {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+                center / contain no-repeat url('../images/header/filmoteka-mobile-x2.jpg'), #000103;
+        }
+    }
+
+    @media screen and(min-width: 321px) and(max-width: 768px) {
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+            center / auto no-repeat url('../images/header/filmoteka-tablet-x1.jpg'), #000103;
+
+        @media screen and (min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx) {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+                center / cover no-repeat url('../images/header/filmoteka-tablet-x2.jpg'), #000103;
+        }
+    }
+
+    @media screen and(min-width: 769px) {
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+            center / auto no-repeat url('../images/header/filmoteka-desktop-x1.jpg'), #000103;
+
+        @media screen and (min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx) {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+                center / cover no-repeat url('../images/header/filmoteka-desktop-x2.jpg'), #000103;
+        }
+    }
+
+    @media screen and(min-width: 1024px) {
+
+        @media screen and (min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx) {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+                center / contain no-repeat url('../images/header/filmoteka-desktop-x2.jpg'), #000103;
+        }
+    }
+}
+
+.header-hero__library-wrapper {
+    min-width: 320px;
+    height: 230px;
+    animation: show 2s;
+
+    @keyframes show {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+    center / auto no-repeat url('../images/header/library-mobile-x1.jpg'),
+    #000103;
+
+    @media screen and(max-width: 320px) {
+
+        @media screen and (min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx) {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+                center / contain no-repeat url('../images/header/library-mobile-x2.jpg'), #000103;
+        }
+    }
+
+    @media screen and(min-width: 321px) and(max-width: 768px) {
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+            center / auto no-repeat url('../images/header/library-tablet-x1.jpg'), #000103;
+
+        @media screen and (min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx) {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+                center / cover no-repeat url('../images/header/library-tablet-x2.jpg'), #000103;
+        }
+    }
+
+    @media screen and(min-width: 769px) {
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+            center / auto no-repeat url('../images/header/library-desktop-x1.jpg'), #000103;
+
+        @media screen and (min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx) {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+                center / cover no-repeat url('../images/header/library-desktop-x2.jpg'), #000103;
+        }
+    }
+
+    @media screen and(min-width: 1024px) {
+
+        @media screen and (min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx) {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
+                center / contain no-repeat url('../images/header/library-desktop-x2.jpg'), #000103;
+        }
+    }
+}
+
+.animation-thumb {
+    animation: show 0.5s;
+
+    @keyframes show {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        transition-duration: 1000ms;
+    }
+
+    @media screen and(min-width: 1024px) {
+        transition-duration: 1000ms;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.flex-thumb {
+    display: flex;
+    align-items: flex-end;
+
+    @media screen and (min-width: 768px) {
+        align-items: center;
+    }
+}
+
+.site-nav {
+    /* margin-right: 33px; */
+}
+
+.site-nav__list {
+    display: flex;
+    height: 20px;
+    align-items: center;
+}
+
+.site-nav__item {
+    position: relative;
+
+    margin-right: 39px;
+}
+
+
+
+.site-nav__link {
+    border: none;
+    background-color: transparent;
+    color: var(--bg-primary-color);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.17;
+
+    cursor: pointer;
+
+
+}
+
+.site-nav__link:hover {
+    text-shadow: rgb(230, 231, 230) 0.5px 0 3px;
+}
+
+.is-active::after {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    content: '';
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--accent-color);
+}
+
+
+.header__logo {
+    color: var(--bg-primary-color);
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.17;
+    margin-left: 10px;
+
+    @media screen and(max-width: 767px) {
+        display: none;
+    }
+}
+
+
+
+.header__input {
+    border: none;
+    background-color: transparent;
+    border-bottom: 0.5px solid var(--bg-primary-color);
+    width: 100%;
+    outline: transparent;
+    color: var(--bg-primary-color);
+}
+
+.header__input::placeholder {
+    color: var(--bg-primary-color);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.17;
+}
+
+.header__input:focus {
+    &::placeholder {
+        color: transparent;
+    }
+}
+
+.header__link {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+}
+
+.header__link:hover {
+    text-shadow: rgb(230, 231, 230) 0.5px 0 3px;
+}
+
+.library-text {
+    font-size: 20px;
+    padding-top: 16vh;
+    text-align: center;
+    font-weight: 500;
+    color: rgb(99, 102, 102);
+}

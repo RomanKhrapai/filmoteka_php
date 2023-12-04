@@ -30,7 +30,7 @@ services:
       - php-fpm-socket:/var/run/php-fpm
       - ../backend:/work/backend
     networks:
-        - backend
+      - backend
 
   db:
     image: mysql:latest
@@ -45,7 +45,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASS}
       MYSQL_USER: ${DB_USER}
     networks:
-        - backend
+      - backend
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
