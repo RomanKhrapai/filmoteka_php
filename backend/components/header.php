@@ -4,7 +4,7 @@
 
         <header class="header">
 
-            <a href="/index.html" class="header__link">
+            <a href="/" class="header__link">
                 <svg class="header__icon" width="24" height="24">
                     <use href="/images/icons.svg#film-icon"></use>
                 </svg>
@@ -16,19 +16,24 @@
                 <nav class="site-nav">
 
                     <ul class="site-nav__list">
-                        <li class="site-nav__item"> <a class="site-nav__link is-active">HOME</a></li>
-                        <li class="site-nav__item"> <a class="site-nav__link ">FILMS</a></li>
-                        <li class="site-nav__item"> <a class="site-nav__link">MY LIBRARY</a></li>
+                        <li class="site-nav__item"> <a class="site-nav__link is-active" href="/">HOME</a></li>
+                        <li class="site-nav__item"> <a class="site-nav__link " href="/films">FILMS</a></li>
+                        <li class="site-nav__item"> <a class="site-nav__link" href="/library">LIBRARY</a></li>
                     </ul>
 
                 </nav>
 
                 <div class="auth">
-                    <button class="auth__button"><span class="auth__name">LOG IN</span>
-                        <svg width="20" height="20" class="icon">
-                            <use href="./images/icons.svg#non-auth-user"></use>
-                        </svg>
-                    </button>
+                    <?php
+                    if (empty($user)) {
+                        echo '<div class="auth__item"> <a class="auth__link" href="/auth/login">LOG IN</a></div>
+                    <div class="auth__item"> <a class="auth__link" href="/auth/singup">SING UP</a></div>';
+                    } else {
+                        echo  '<div class="auth__item"> <a class="auth__link" href="/user">000</a></div>
+                    <div class="auth__item"> <a class="auth__link" href="/auth/logout">LOG OUT</a></div>';
+                    }
+
+                    ?>
                 </div>
 
             </div>

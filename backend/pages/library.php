@@ -56,15 +56,11 @@ CONCAT_WS(', ', GROUP_CONCAT(genres.name)) AS genres
 FROM films
 JOIN film_genre ON films.id = film_genre.film_id
 JOIN genres ON film_genre.genre_id = genres.id
+
 GROUP BY films.id
 ORDER BY films.release_date DESC
 LIMIT $maxFillPage OFFSET $startItem;")->fetchAll(PDO::FETCH_ASSOC);
 
-
-echo '<br>params = "' . json_encode($params) . '"<br>';
-echo '<br>query = "' . json_encode($query) . '"<br>';
-
-// dd($films)
 ?>
 
 
@@ -99,24 +95,6 @@ echo '<br>query = "' . json_encode($query) . '"<br>';
                 include 'components/pagination.php' ?>
             </div>
         </section>
-
-        <?php
-        //  Вивід помилок
-        // if (isset($_SESSION['error'])) {
-        //     $error = $_SESSION['error'];
-        //     echo "<p style='color:red;'>$error</p>";
-        // }
-        ?>
-
-        <!-- <form method="POST" action="scripts/main.php">
-            <label for="username">Логін:</label>
-            <input type="text" id="username" name="username" required><br>
-
-            <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password" required><br>
-
-            <input type="submit" value="Увійти">
-        </form> -->
     </div>
 
 </body>

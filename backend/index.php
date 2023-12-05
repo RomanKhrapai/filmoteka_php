@@ -6,12 +6,11 @@ $url = $_SERVER['REQUEST_URI'];
 $r = new Router();
 $r->addRoute('/', 'main.php');
 $r->addRoute('/film/$id', 'oneFilm.php');
-$r->addRoute('/films', 'main.php');
-$r->addRoute('/films/serials', 'main.php');
-$r->addRoute('/library', 'main.php');
-$r->addRoute('/library/favorite', 'main.php');
-$r->addRoute('/auth/registration', 'main.php');
-$r->addRoute('/auth/login', 'main.php');
+$r->addRoute('/films', 'films.php');
+$r->addRoute('/library', 'library.php');
+$r->addRoute('/library/favorite', 'favorite.php');
+$r->addRoute('/auth/singup', 'signUp.php');
+$r->addRoute('/auth/login', 'logIn.php');
 
 $r->route($url);
 

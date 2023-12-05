@@ -15,118 +15,12 @@
         }
     }
 
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-    center / auto no-repeat url('../images/header/filmoteka-mobile-x1.jpg'),
+    background: linear-gradient(90deg, rgba(0, 0, 0, .515), rgba(0, 0, 0, .526)),
+    center / auto 100% no-repeat url('../assets/header.jpg'),
     #000103;
-
-    @media screen and(max-width: 320px) {
-
-        @media screen and (min-device-pixel-ratio: 2),
-        screen and (min-resolution: 192dpi),
-        screen and (min-resolution: 2dppx) {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-                center / contain no-repeat url('../images/header/filmoteka-mobile-x2.jpg'), #000103;
-        }
-    }
-
-    @media screen and(min-width: 321px) and(max-width: 768px) {
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-            center / auto no-repeat url('../images/header/filmoteka-tablet-x1.jpg'), #000103;
-
-        @media screen and (min-device-pixel-ratio: 2),
-        screen and (min-resolution: 192dpi),
-        screen and (min-resolution: 2dppx) {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-                center / cover no-repeat url('../images/header/filmoteka-tablet-x2.jpg'), #000103;
-        }
-    }
-
-    @media screen and(min-width: 769px) {
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-            center / auto no-repeat url('../images/header/filmoteka-desktop-x1.jpg'), #000103;
-
-        @media screen and (min-device-pixel-ratio: 2),
-        screen and (min-resolution: 192dpi),
-        screen and (min-resolution: 2dppx) {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-                center / cover no-repeat url('../images/header/filmoteka-desktop-x2.jpg'), #000103;
-        }
-    }
-
-    @media screen and(min-width: 1024px) {
-
-        @media screen and (min-device-pixel-ratio: 2),
-        screen and (min-resolution: 192dpi),
-        screen and (min-resolution: 2dppx) {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-                center / contain no-repeat url('../images/header/filmoteka-desktop-x2.jpg'), #000103;
-        }
-    }
 }
 
-.header-hero__library-wrapper {
-    min-width: 320px;
-    height: 230px;
-    animation: show 2s;
 
-    @keyframes show {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-    center / auto no-repeat url('../images/header/library-mobile-x1.jpg'),
-    #000103;
-
-    @media screen and(max-width: 320px) {
-
-        @media screen and (min-device-pixel-ratio: 2),
-        screen and (min-resolution: 192dpi),
-        screen and (min-resolution: 2dppx) {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-                center / contain no-repeat url('../images/header/library-mobile-x2.jpg'), #000103;
-        }
-    }
-
-    @media screen and(min-width: 321px) and(max-width: 768px) {
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-            center / auto no-repeat url('../images/header/library-tablet-x1.jpg'), #000103;
-
-        @media screen and (min-device-pixel-ratio: 2),
-        screen and (min-resolution: 192dpi),
-        screen and (min-resolution: 2dppx) {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-                center / cover no-repeat url('../images/header/library-tablet-x2.jpg'), #000103;
-        }
-    }
-
-    @media screen and(min-width: 769px) {
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-            center / auto no-repeat url('../images/header/library-desktop-x1.jpg'), #000103;
-
-        @media screen and (min-device-pixel-ratio: 2),
-        screen and (min-resolution: 192dpi),
-        screen and (min-resolution: 2dppx) {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-                center / cover no-repeat url('../images/header/library-desktop-x2.jpg'), #000103;
-        }
-    }
-
-    @media screen and(min-width: 1024px) {
-
-        @media screen and (min-device-pixel-ratio: 2),
-        screen and (min-resolution: 192dpi),
-        screen and (min-resolution: 2dppx) {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
-                center / contain no-repeat url('../images/header/library-desktop-x2.jpg'), #000103;
-        }
-    }
-}
 
 .animation-thumb {
     animation: show 0.5s;
