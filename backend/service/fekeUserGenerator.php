@@ -36,6 +36,7 @@ for ($i = $maxIdUser + 1; $i < $maxIdUser + 26; $i++) {
     $userName =  $faker->name();
 
     $arr = explode(" ", $userName);
+
     $nameAbbreviation =  $arr[0][0] . $arr[1][0];
     $imgPath = $nameAbbreviation . "_$i.jpg";
 
