@@ -6,13 +6,13 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
 }
 
 require __DIR__ . '/../vendor/autoload.php';
-session_start();
+
 // session_destroy();
 // Перевірка, чи користувач вже авторизований
-if (isset($_SESSION['user_id'])) {
-    header("Location: scripts/dashboard.php");
-    exit();
-}
+// if (isset($_SESSION['user_id'])) {
+//     header("Location: scripts/dashboard.php");
+//     exit();
+// }
 
 
 

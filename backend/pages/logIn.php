@@ -7,17 +7,6 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
     exit;
 }
 
-session_start();
-// session_destroy();
-// Перевірка, чи користувач вже авторизований
-if (isset($_SESSION['user_id'])) {
-    header("Location: scripts/dashboard.php");
-    exit();
-}
-
-
-
-
 ?>
 
 
@@ -28,8 +17,8 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../css/style_main.css" rel="stylesheet">
-    <link href="../css/style_logIn.css" rel="stylesheet">
-    <title>Страниця авторизації</title>
+    <link href="../css/style_auth.css" rel="stylesheet">
+    <title>log in</title>
 </head>
 
 <body>
@@ -40,15 +29,32 @@ if (isset($_SESSION['user_id'])) {
             <section class="auth-section">
                 <div class="auth-container registration">
                     <h1 class="main-title registration__title">Login</h1>
-                    <form class="login__form form login__form">
-                        <label class="custom-label login__input" autocomplete="email" placeholder="mail" name="email">
+                    <form class=" form auth__form" method="POST" action="/scripts/login">
+                        <label class="custom-label auth__input" autocomplete="email" placeholder="email" name="email">
                             E-mail
-                            <input autocomplete="email" placeholder="E-mail" name="email" class="login__input custom-input">
-                        </label><label class="custom-label login__input" type="password" autocomplete="current-password" placeholder="password" name="password">
-                            Password
-                            <input type="password" autocomplete="current-password" placeholder="password" name="password" class="login__input custom-input">
+                            <?php
+                            echo (isset($_SESSION['errorsForm']['email'])) ?
+                                "<input autocomplete='email' placeholder='E-mail' name='email' value = '{$_SESSION['formData']['email']}'
+                                 class='auth__input custom-input error__input'> 
+                             <span class='auth-error'>{$_SESSION['errorsForm']['email']}</span>"
+                                : " <input autocomplete='email' placeholder='E-mail' name='email' class='auth__input custom-input'>";
+                            ?>
+
                         </label>
-                        <button class="login__btn btn login__btn" type="submit">
+                        <label class="custom-label auth__input" type="password" autocomplete="current-password" placeholder="password" name="password">
+                            Password
+                            <?php
+                            echo (isset($_SESSION['errorsForm']['password'])) ?
+                                "<input type='password' autocomplete='current-password' placeholder='password' name='password'
+                                 class='auth__input custom-input error__input' >
+                             <span class='auth-error'>{$_SESSION['errorsForm']['password']}</span>"
+                                : "<input type='password' autocomplete='current-password' placeholder='password' name='password'
+                                class='auth__input custom-input' >";
+                            // dd($_SESSION['errorsForm']);
+                            ?>
+                            <!-- <input type="password" autocomplete="current-password" placeholder="password" name="password" class="auth__input custom-input"> -->
+                        </label>
+                        <button class="auth__btn btn auth__btn" type="submit">
                             submit</button>
                     </form>
                     <a class="link"> Sign up</a>
@@ -72,3 +78,5 @@ if (isset($_SESSION['user_id'])) {
 </body>
 
 </html>
+<?php unset($_SESSION['errorsForm']);
+unset($_SESSION['formData']);

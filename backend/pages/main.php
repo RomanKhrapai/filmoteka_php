@@ -6,12 +6,10 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
 }
 
 require __DIR__ . '/../vendor/autoload.php';
-session_start();
-// session_destroy();
-// Перевірка, чи користувач вже авторизований
-if (isset($_SESSION['user_id'])) {
-    header("Location: scripts/dashboard.php");
-    exit();
+
+$user = [];
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];
 }
 
 
@@ -33,7 +31,7 @@ FROM (
     GROUP BY films.id
 ) AS subquery;")->fetchAll(PDO::FETCH_ASSOC)[0]['total_records'];
 
-$page = $query['page'] ?? 1;
+$page = $_GET['page'] ?? 1;
 $url = $params['url'];
 
 $maxFillPage =  18;
@@ -61,8 +59,8 @@ ORDER BY films.release_date DESC
 LIMIT $maxFillPage OFFSET $startItem;")->fetchAll(PDO::FETCH_ASSOC);
 
 
-echo '<br>params = "' . json_encode($params) . '"<br>';
-echo '<br>query = "' . json_encode($query) . '"<br>';
+// echo '<br>params = "' . json_encode($params) . '"<br>';
+// echo '<br>query = "' . json_encode($query) . '"<br>';
 
 // dd($films)
 ?>
@@ -100,23 +98,6 @@ echo '<br>query = "' . json_encode($query) . '"<br>';
             </div>
         </section>
 
-        <?php
-        //  Вивід помилок
-        // if (isset($_SESSION['error'])) {
-        //     $error = $_SESSION['error'];
-        //     echo "<p style='color:red;'>$error</p>";
-        // }
-        ?>
-
-        <!-- <form method="POST" action="scripts/main.php">
-            <label for="username">Логін:</label>
-            <input type="text" id="username" name="username" required><br>
-
-            <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password" required><br>
-
-            <input type="submit" value="Увійти">
-        </form> -->
     </div>
 
 </body>

@@ -69,18 +69,23 @@
     align-items: center;
 }
 
-.site-nav__item {
+.site-nav__item,
+.auth__item {
     position: relative;
 
     margin-right: 39px;
 }
 
+.auth__item {
+    margin-right: 15px;
+}
 
 
-.site-nav__link {
+.site-nav__link,
+.auth__link {
     border: none;
     background-color: transparent;
-    color: var(--bg-primary-color);
+    color: var(--light-text-color);
     font-size: 12px;
     font-weight: 500;
     line-height: 1.17;
@@ -90,7 +95,8 @@
 
 }
 
-.site-nav__link:hover {
+.site-nav__link:hover,
+.auth__link:hover {
     text-shadow: rgb(230, 231, 230) 0.5px 0 3px;
 }
 
@@ -160,4 +166,11 @@
     text-align: center;
     font-weight: 500;
     color: rgb(99, 102, 102);
+}
+
+.auth {
+    display: flex;
+    align-items: center;
+    border: solid var(--accent-color);
+    padding: 10px;
 }

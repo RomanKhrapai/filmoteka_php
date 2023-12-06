@@ -27,7 +27,7 @@
                     <?php
                     if (empty($user)) {
                         echo '<div class="auth__item"> <a class="auth__link" href="/auth/login">LOG IN</a></div>
-                    <div class="auth__item"> <a class="auth__link" href="/auth/singup">SING UP</a></div>';
+                    <div class="auth__item"> <a class="auth__link" href="/auth/signup">SIGN UP</a></div>';
                     } else {
                         echo  '<div class="auth__item"> <a class="auth__link" href="/user">000</a></div>
                     <div class="auth__item"> <a class="auth__link" href="/auth/logout">LOG OUT</a></div>';

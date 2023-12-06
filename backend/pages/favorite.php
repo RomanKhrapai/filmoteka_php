@@ -6,12 +6,12 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
 }
 
 require __DIR__ . '/../vendor/autoload.php';
-session_start();
 
-if (isset($_SESSION['user_id'])) {
-    header("Location: scripts/dashboard.php");
-    exit();
-}
+
+// if (isset($_SESSION['user_id'])) {
+//     header("Location: scripts/dashboard.php");
+//     exit();
+// }
 
 
 
@@ -32,7 +32,7 @@ FROM (
     GROUP BY films.id
 ) AS subquery;")->fetchAll(PDO::FETCH_ASSOC)[0]['total_records'];
 
-$page = $query['page'] ?? 1;
+$page = $_GET['page'] ?? 1;
 $url = $params['url'];
 
 $maxFillPage =  18;

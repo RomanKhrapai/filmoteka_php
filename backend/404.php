@@ -1,13 +1,3 @@
-<?php
-//require __DIR__ . '/vendor/autoload.php';
-session_start();
-
-// Перевірка, чи користувач вже авторизований
-if (isset($_SESSION['user_id'])) {
-    header("Location: scripts/dashboard.php");
-    exit();
-}
-?>
 <!doctype html>
 <html lang="en">
 

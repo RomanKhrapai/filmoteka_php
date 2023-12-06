@@ -12,22 +12,13 @@ class Router
 
     function route($url)
     {
-        $query = [];
         $params = [];
 
-        $mainUrl = substr($url, 0, strpos($url, "?"));
-        $mainUrl = $mainUrl === '' ? $url : $mainUrl;
+        $mainUrl = parse_url($url)['path'];
+
         $arrWords = explode('/',  $mainUrl);
 
-        $queryArr = strpos($url, "?") ? explode('&', substr($url, strpos($url, "?") + 1)) : [];
-
-        foreach ($queryArr as $parametr) {
-            $key = substr($parametr, 0, strpos($parametr, "="));
-            $value = substr($parametr, strpos($parametr, "=") + 1);
-            $query[$key] = $value;
-        }
-
-        foreach ($this->pages as $key1 => $value) {
+        foreach ($this->pages as $key1 => $fileDir) {
             $keyWords  = explode('/',  $key1);
             $params = [];
             if (count($keyWords) !== count($arrWords)) {
@@ -44,7 +35,6 @@ class Router
                 };
 
                 if ($key2 + 1 == count($keyWords)) {
-                    $fileDir = 'pages/' . $value;
                     if (file_exists($fileDir)) {
                         $params['url'] = $key1;
                         require $fileDir;
