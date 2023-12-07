@@ -7,33 +7,30 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// session_destroy();
-// Перевірка, чи користувач вже авторизований
-// if (isset($_SESSION['user_id'])) {
-//     header("Location: scripts/dashboard.php");
-//     exit();
-// }
+use Palmo\Core\service\Db;
+use Palmo\Core\service\Validation;
 
+$db = new Db();
+$dbh = $db->getHandler();
 
-
-$dsn = 'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_USERNAME'] . '';
-try {
-    $pdo = new PDO($dsn,    $_ENV['DB_USERNAME'],     $_ENV['DB_PASSWORD']);
-} catch (PDOException $e) {
-    echo 'помилка підключення: ' . $e->getMessage();
-}
-
-
-$total = $pdo->query("SELECT COUNT(*) AS total_records
+$stmt = $dbh->prepare("SELECT COUNT(*) AS total_records
 FROM (
     SELECT films.id
     FROM films
     JOIN film_genre ON films.id = film_genre.film_id
     JOIN genres ON film_genre.genre_id = genres.id
+    JOIN vote ON vote.film_id = films.id
     GROUP BY films.id
-) AS subquery;")->fetchAll(PDO::FETCH_ASSOC)[0]['total_records'];
+) AS subquery;");
+// $stmt->bindParam(':token', $token);
+// $stmt->bindParam(':userId', $user['id']);
+// $stmt->bindParam(':validUntil', $validUntil);
+$stmt->execute();
+$total = $stmt->fetch()['total_records'];
 
-$page = $query['page'] ?? 1;
+
+
+$page = $_GET['page'] ?? 1;
 $url = $params['url'];
 
 $maxFillPage =  18;
@@ -46,25 +43,28 @@ if ($maxPage < $page) {
 }
 
 $startItem = $maxFillPage * ($page - 1);
-
-$films = $pdo->query("SELECT
+// SELECT avg(*) FROM vote WHERE film_id = 1047925;
+$stmt = $dbh->prepare("SELECT
 films.id,
 films.title,
 films.release_date,
 films.backdrop_path,
-CONCAT_WS(', ', GROUP_CONCAT(genres.name)) AS genres
+CONCAT_WS(', ', GROUP_CONCAT(DISTINCT genres.name)) AS genres,
+AVG(vote.mark) AS vote,
+count(vote.mark)AS votes
 FROM films
 JOIN film_genre ON films.id = film_genre.film_id
 JOIN genres ON film_genre.genre_id = genres.id
+JOIN vote ON vote.film_id = films.id
 GROUP BY films.id
+
 ORDER BY films.release_date DESC
-LIMIT $maxFillPage OFFSET $startItem;")->fetchAll(PDO::FETCH_ASSOC);
+LIMIT :maxFillPage OFFSET :startItem;");
+$stmt->bindParam(':maxFillPage', $maxFillPage);
+$stmt->bindParam(':startItem', $startItem);
 
-
-echo '<br>params = "' . json_encode($params) . '"<br>';
-echo '<br>query = "' . json_encode($query) . '"<br>';
-
-// dd($films)
+$stmt->execute();
+$films = $stmt->fetchAll();
 ?>
 
 
@@ -79,46 +79,38 @@ echo '<br>query = "' . json_encode($query) . '"<br>';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
 
-
-    <!-- Custom styles for this template -->
-    <!-- <link href="css/form-validation.css" rel="stylesheet"> -->
     <link href="css/style_main.css" rel="stylesheet">
+
+
 </head>
 
 <body>
     <div class="page">
-        <?php include 'components/header.php' ?>
-        <!-- <h2>Головна сторінка</h2> -->
+        <?php
 
-        <section class="section">
+        include 'components/header.php' ?>
+
+        <section class="section_min">
             <div class="container">
                 <?php
-                include 'components/gallery.php' ?>
+                include 'components/hero.php'
+                ?>
 
                 <?php
-                include 'components/pagination.php' ?>
+                include 'components/gallery.php'
+                ?>
+
+                <?php
+                include 'components/pagination.php'
+                ?>
             </div>
         </section>
 
-        <?php
-        //  Вивід помилок
-        // if (isset($_SESSION['error'])) {
-        //     $error = $_SESSION['error'];
-        //     echo "<p style='color:red;'>$error</p>";
-        // }
-        ?>
 
-        <!-- <form method="POST" action="scripts/main.php">
-            <label for="username">Логін:</label>
-            <input type="text" id="username" name="username" required><br>
-
-            <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password" required><br>
-
-            <input type="submit" value="Увійти">
-        </form> -->
     </div>
 
 </body>
 
 </html>
+<?php
+dd($_GET);

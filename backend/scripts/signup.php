@@ -18,6 +18,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $confirmPassword = $_POST['confirm-password'];
 $rules = isset($_POST['rules']);
+$urlImg = '/storege/default_avatar.jpg';
 
 $_SESSION['errorsForm'] = [];
 $errors['email'] =  Validation::validate('email', $email);
@@ -55,11 +56,12 @@ $user = $stmt->fetch();
 if (empty($user)) {
     $hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $dbh->prepare("INSERT INTO `users`( `username`, `password`, `email`, `url_img`, `no_hash`) VALUES 
-         (:username,:hashPassword,:email,'[value-5]',:passwordText)");
+         (:username,:hashPassword,:email,:urlImg,:passwordText)");
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':username', $username);
     $stmt->bindParam(':passwordText', $password);
     $stmt->bindParam(':hashPassword', $hash);
+    $stmt->bindParam(':urlImg', $urlImg);
     $stmt->execute();
     $result = $stmt->fetch();
 

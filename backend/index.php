@@ -49,7 +49,7 @@ if (isset($_SESSION['user'])) {
     $r->addRoute('/scripts/signup', 'scripts/signup.php');
 }
 $r->addRoute('/', 'pages/main.php');
-$r->addRoute('/film/$id', 'pages/oneFilm.php');
+$r->addRoute('/films/$id', 'pages/oneFilm.php');
 $r->addRoute('/films', 'pages/films.php');
 
 $r->route($url);

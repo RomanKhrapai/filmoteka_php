@@ -2,16 +2,18 @@
 
 require __DIR__ . '../../vendor/autoload.php';
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: /404");
+    exit();
+}
+
 use Palmo\Core\service\Db;
 use Palmo\Core\service\Validation;
 
 $db = new Db();
 $dbh = $db->getHandler();
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    header("Location: /404");
-    exit();
-}
+
 
 $email = $_POST['email'];
 $password = $_POST['password'];

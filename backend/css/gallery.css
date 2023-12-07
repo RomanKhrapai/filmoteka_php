@@ -10,6 +10,15 @@
     }
 }
 
+.section_min {
+    padding-bottom: 40px;
+}
+
+@media screen and (min-width: 768px) {
+    .section_min {
+        padding-bottom: 60px;
+    }
+}
 
 .gallery {
     height: 100%;
