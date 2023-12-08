@@ -7,10 +7,10 @@ $genres = $stmt->fetchAll();
 
 <div class="hero">
 
-    <form class="hero__form" method="get" action="/films">
+    <div class="hero__form">
         <div class="hero__heder">
-            <div class="hero__search_box">
-                <input class=" hero__block_default hero__input" type="search" name="search" id="input" minlength="2" required autocomplete="off" placeholder="search text">
+            <form class="hero__search_form" method="get" action="/films">
+                <input class=" hero__block_default hero__input" value="<?= $search  ?>" type="search" name="search" id="input" minlength="2" required autocomplete="off" placeholder="search text">
                 <button class=" hero__block_default hero__search-button" aria-label="search" type="submit">
                     <svg class="hero__search_icon ">
                         <use xlink:href="#icon-search"></use>
@@ -20,27 +20,29 @@ $genres = $stmt->fetchAll();
                     </svg>
 
                 </button>
-            </div>
+            </form>
+
             <label class="">
                 Sort by:
-                <select name="sort" class="hero__block_default hero__select" data-role="dropdownlist">
-                    <option value="popularity.desc" selected="selected">Popularity &#8659;</option>
-                    <option value="popularity.asc">Popularity &#8657;</option>
-                    <option value="vote.desc">Rating &#8659;</option>
-                    <option value="vote.asc">Rating &#8657;</option>
-                    <option value="release_date.desc">Release date &#8659;</option>
-                    <option value="release_date.asc">Release date &#8657;</option>
-                    <option value="title.asc">Title (AZ)</option>
-                    <option value="title.desc">Title (ZA)</option>
+                <select id="selectOptions" onchange="makeRequestSort()" name="sort" class="hero__block_default hero__select" data-role="dropdownlist">
+                    <option value="popularity.desc" <?= $switchSort === 'popularity desc' ? 'selected="selected"' : '' ?>>Popularity &#8659;</option>
+                    <option value="popularity.asc" <?= $switchSort === 'popularity asc' ? 'selected="selected"' : '' ?>>Popularity &#8657;</option>
+                    <option value="vote.desc" <?= $switchSort === 'vote desc' ? 'selected="selected"' : '' ?>>Rating &#8659;</option>
+                    <option value="vote.asc" <?= $switchSort === 'vote asc' ? 'selected="selected"' : '' ?>>Rating &#8657;</option>
+                    <option value="release_date.desc" <?= $switchSort === 'release_date desc' ? 'selected="selected"' : '' ?>>Release date &#8659;</option>
+                    <option value="release_date.asc" <?= $switchSort === 'release_date asc' ? 'selected="selected"' : '' ?>>Release date &#8657;</option>
+                    <option value="title.asc" <?= $switchSort === 'title asc' ? 'selected="selected"' : '' ?>>Title (AZ)</option>
+                    <option value="title.desc" <?= $switchSort === 'title desc' ? 'selected="selected"' : '' ?>>Title (ZA)</option>
                 </select></label>
+
 
             <label class="more-label hero__button hero__block_default">more...<input id="moreButton" class="input-none" name="more" type="checkbox" aria-label="more filters"></label>
         </div>
-        <div class="filter__box" id='moreBox'>
+        <form class="filter__box" id='filterForm'>
             <div class="filter__genres">
                 <?php
                 foreach ($genres as $genre) {
-                    echo "<input id='{$genre['id']}' class='input-none' name='genre{$genre['id']}' type='checkbox' aria-label='{$genre['name']}'>
+                    echo "<input data-genre='" . $genre['id'] . "' id='{$genre['id']}' class='input-none' name='genre{$genre['id']}' type='checkbox' aria-label='{$genre['name']}'>
 <label for='{$genre['id']}' class='hero__block_default filter__genre'>{$genre['name']} </label>";
                 }
 
@@ -53,26 +55,67 @@ $genres = $stmt->fetchAll();
                 <div id="range-values">Від: <span id="range-from-value">0</span> До: <span id="range-to-value">100</span></div>
             </div>
 
-            <label for="fruit">Оберіть фрукти:</label>
-            <select id="fruit" name="fruit[]" size="5" multiple>
-                <option value="apple">Яблуко</option>
-                <option value="banana">Банан</option>
-                <option value="orange">Апельсин</option>
-                <option value="grape">Виноград</option>
-                <option value="strawberry">Полуниця</option>
-            </select>
+            <button class=" hero__block_default " aria-label="search" type="submit">
+                sudmit
+            </button>
+
+        </form>
+        <div class="notification-text"></div>
+    </div>
 
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () =>
+            document.getElementById("moreButton").addEventListener("click",
+                () => {
+                    document.getElementById("filterForm").classList.toggle("is-more")
+                    const currentUrl = new URL(window.location.href);
 
-    </form>
-    <div class="notification-text"></div>
-</div>
+                    if (currentUrl.searchParams.has('more')) {
+                        currentUrl.searchParams.delete('more');
+                    } else {
+                        currentUrl.searchParams.set('more', '1');
+                    }
 
+                    window.history.replaceState({}, '', currentUrl);
+                })
+        )
 
-<script>
-    document.addEventListener("DOMContentLoaded", () =>
-        document.getElementById("moreButton").addEventListener("click",
-            () => document.getElementById("moreBox").classList.toggle("is-more"))
-    )
-    console.log(document.querySelector("moreBox"));
-</script>
+        function makeRequestSort() {
+            const selectedOption = document.getElementById("selectOptions").value;
+
+            const currentUrl = new URL(window.location.href);
+            const queryParams = currentUrl.searchParams;
+
+            if (queryParams.has('sort')) {
+                queryParams.set('sort', selectedOption);
+            } else {
+                queryParams.append('sort', selectedOption);
+            }
+            window.location.href = currentUrl.href;
+        }
+
+        document.getElementById("filterForm").addEventListener("submit", updateCheckboxValues);
+
+        function updateCheckboxValues(event) {
+            event.preventDefault();
+            const checkboxes = document.querySelectorAll("[data-genre]:checked")
+            const genres = [...checkboxes].map((elem) => elem.getAttribute("data-genre"));
+
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (urlParams.has('genres')) {
+                urlParams.delete('genres');
+            }
+            genres.forEach((genre) => urlParams.append('genres', genre));
+
+            const newGenresQueryString = urlParams.toString();
+            if (newGenresQueryString !== "") {
+                const updatedUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + newGenresQueryString;
+                window.history.replaceState({
+                    path: updatedUrl
+                }, '', updatedUrl);
+            }
+
+        }
+    </script>

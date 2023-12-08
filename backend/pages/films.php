@@ -13,6 +13,25 @@ use Palmo\Core\service\Validation;
 $db = new Db();
 $dbh = $db->getHandler();
 
+
+
+$page = $_GET['page'] ?? 1;
+$search = $_GET['search'] ?? '';
+$sort = $_GET['sort'] ?? '';
+$url = $params['url'];
+
+$switchSort = match ($sort) {
+    "popularity.desc" => "popularity desc",
+    "popularity.asc" => "popularity asc",
+    "vote.desc" => "vote desc",
+    "vote.asc" => "vote asc",
+    "release_date.desc" => "release_date desc",
+    "release_date.asc" => "release_date asc",
+    "title.asc" => "title asc",
+    "title.desc" => "title desc",
+    default => "release_date desc"
+};
+
 $stmt = $dbh->prepare("SELECT COUNT(*) AS total_records
 FROM (
     SELECT films.id
@@ -20,9 +39,11 @@ FROM (
     JOIN film_genre ON films.id = film_genre.film_id
     JOIN genres ON film_genre.genre_id = genres.id
     JOIN vote ON vote.film_id = films.id
+    WHERE films.title LIKE CONCAT('%', :search, '%')
     GROUP BY films.id
 ) AS subquery;");
-// $stmt->bindParam(':token', $token);
+
+$stmt->bindParam(':search', $search);
 // $stmt->bindParam(':userId', $user['id']);
 // $stmt->bindParam(':validUntil', $validUntil);
 $stmt->execute();
@@ -30,38 +51,42 @@ $total = $stmt->fetch()['total_records'];
 
 
 
-$page = $_GET['page'] ?? 1;
-$url = $params['url'];
 
 $maxFillPage =  18;
 $maxPage = ceil($total / $maxFillPage);
 
 
 
-if ($maxPage < $page) {
+if ($maxPage < $page || $page < 1) {
     $page = $maxPage;
 }
+
 
 $startItem = $maxFillPage * ($page - 1);
 // SELECT avg(*) FROM vote WHERE film_id = 1047925;
 $stmt = $dbh->prepare("SELECT
 films.id,
-films.title,
-films.release_date,
+films.title AS title,
+films.release_date AS release_date,
 films.backdrop_path,
 CONCAT_WS(', ', GROUP_CONCAT(DISTINCT genres.name)) AS genres,
 AVG(vote.mark) AS vote,
-count(vote.mark)AS votes
+COUNT(DISTINCT vote.id)  AS votes,
+ COUNT(DISTINCT popularity.id) AS popularity
 FROM films
 JOIN film_genre ON films.id = film_genre.film_id
 JOIN genres ON film_genre.genre_id = genres.id
 JOIN vote ON vote.film_id = films.id
+JOIN 
+popularity ON popularity.film_id = films.id
+WHERE films.title LIKE CONCAT('%', :search, '%')
 GROUP BY films.id
-
-ORDER BY films.release_date DESC
+ORDER BY " . $switchSort . "
 LIMIT :maxFillPage OFFSET :startItem;");
+$stmt->bindParam(':search', $search);
 $stmt->bindParam(':maxFillPage', $maxFillPage);
 $stmt->bindParam(':startItem', $startItem);
+// $stmt->bindParam(':sort', $switchSort);
 
 $stmt->execute();
 $films = $stmt->fetchAll();

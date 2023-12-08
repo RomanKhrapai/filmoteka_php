@@ -1,7 +1,7 @@
 <div class="reviews_header">
     <h3>Коментарі</h3>
 
-    <span class="tooltiptext tooltiptext-top">Додати коментар</span></button>
+    <span class="">Додати коментар</span></button>
 </div>
 <ul class="reviews_list">
     <?php

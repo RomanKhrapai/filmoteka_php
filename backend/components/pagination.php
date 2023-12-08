@@ -8,6 +8,9 @@ $finishPage = $startPage + $maxI < $maxPage ? $startPage + $maxI : $maxPage;
 if ($finishPage - $startPage < 7) {
     $startPage = $finishPage - 6;
 }
+if ($startPage < 1) {
+    $startPage = 1;
+}
 
 
 ?>
@@ -29,6 +32,9 @@ if ($finishPage - $startPage < 7) {
         }
 
         for ($i = $startPage; $i <= $finishPage; $i++) {
+            if ($finishPage = 1) {
+                break;
+            }
             echo ($page == $i ?
                 " <li class=' pagination_item pagination_active'>
                 <a class=' pagination_link' href='$url?page=$i'>$i</a>
