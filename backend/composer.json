@@ -18,6 +18,7 @@
         "psr-4": {
             "Palmo\\": "",
             "Palmo\\Core\\": "scripts/"
+            
         }
     }
 }

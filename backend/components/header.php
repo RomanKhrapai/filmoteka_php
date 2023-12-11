@@ -41,7 +41,7 @@
                             <a class=" " href="/user">
                                 <div class="auth__user">
                                     <img src="' . $_SESSION['user']["url_img"] . '" class="auth__img" height="38"  width="38"  >
-                                    <span class="auth__text" > Roman </span>
+                                    <span class="auth__text" > ' . $_SESSION['user']["username"] . '  </span>
                                 </div>
                             </a>
                          </div>

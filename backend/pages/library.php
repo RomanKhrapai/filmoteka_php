@@ -30,6 +30,8 @@ FROM (
     FROM films
     JOIN film_genre ON films.id = film_genre.film_id
     JOIN genres ON film_genre.genre_id = genres.id
+    JOIN 	favirite ON 	favirite.film_id = films.id 
+    WHERE {$_SESSION['user']['id']} = 	favirite.user_id
     GROUP BY films.id
 ) AS subquery;")->fetchAll(PDO::FETCH_ASSOC)[0]['total_records'];
 
@@ -56,7 +58,8 @@ CONCAT_WS(', ', GROUP_CONCAT(genres.name)) AS genres
 FROM films
 JOIN film_genre ON films.id = film_genre.film_id
 JOIN genres ON film_genre.genre_id = genres.id
-
+JOIN 	favirite ON 	favirite.film_id = films.id 
+    WHERE {$_SESSION['user']['id']} = 	favirite.user_id
 GROUP BY films.id
 ORDER BY films.release_date DESC
 LIMIT $maxFillPage OFFSET $startItem;")->fetchAll(PDO::FETCH_ASSOC);

@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit();
 }
 
-$email = $_POST['email'];
-$username = $_POST['username'];
+$email = strip_tags($_POST['email']);
+$username = strip_tags($_POST['username']);
 $password = $_POST['password'];
 $confirmPassword = $_POST['confirm-password'];
 $rules = isset($_POST['rules']);

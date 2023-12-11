@@ -6,7 +6,9 @@
 .pagination_list {
     display: flex;
     list-style: none;
-    padding: 0;
+
+    padding: 40px 0 0 0;
+    user-select: none;
 }
 
 .pagination_item {
@@ -21,6 +23,12 @@
 
 .pagination_link {
     color: inherit;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
 }
 
 .pagination_item:hover {

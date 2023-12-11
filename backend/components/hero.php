@@ -38,26 +38,38 @@ $genres = $stmt->fetchAll();
 
             <label class="more-label hero__button hero__block_default">more...<input id="moreButton" class="input-none" name="more" type="checkbox" aria-label="more filters"></label>
         </div>
-        <form class="filter__box" id='filterForm'>
+        <form class="filter__box <?= $isMore ? ' is-more' : '' ?>" id='filterForm'>
             <div class="filter__genres">
                 <?php
                 foreach ($genres as $genre) {
-                    echo "<input data-genre='" . $genre['id'] . "' id='{$genre['id']}' class='input-none' name='genre{$genre['id']}' type='checkbox' aria-label='{$genre['name']}'>
-<label for='{$genre['id']}' class='hero__block_default filter__genre'>{$genre['name']} </label>";
-                }
-
-                ?>
+                    $isChecked = in_array($genre['id'], $genresArr) ? 'checked' : '';
+                    echo "
+                    <input data-genre='" . $genre['id'] . "' id='{$genre['id']}' class='input-none' 
+                        name='genre{$genre['id']}' type='checkbox' aria-label='{$genre['name']}' $isChecked>
+                    <label for='{$genre['id']}' class='hero__block_default filter__genre'>
+                        {$genre['name']} 
+                    </label>";
+                } ?>
             </div>
-            <div id="range-container">
+            <!-- <div id="range-container">
                 <label for="range">Виберіть діапазон:</label>
                 <input type="range" id="range-from" min="0" max="100" step="1" value="0">
                 <input type="range" id="range-to" min="0" max="100" step="1" value="100">
                 <div id="range-values">Від: <span id="range-from-value">0</span> До: <span id="range-to-value">100</span></div>
-            </div>
+            </div> -->
+            <!-- <label for="cars">Choose a car:</label>
 
-            <button class=" hero__block_default " aria-label="search" type="submit">
-                sudmit
-            </button>
+            <select name="cars[]" id="cars" multiple>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select> -->
+
+            <div class="hero__box_center"><button class=" hero__block_default  hero__btn_filter" aria-label="search" type="submit">
+                    apply filters
+                </button></div>
+
 
         </form>
         <div class="notification-text"></div>
@@ -87,6 +99,10 @@ $genres = $stmt->fetchAll();
             const currentUrl = new URL(window.location.href);
             const queryParams = currentUrl.searchParams;
 
+            if (queryParams.has('page')) {
+                queryParams.delete('page');
+            }
+
             if (queryParams.has('sort')) {
                 queryParams.set('sort', selectedOption);
             } else {
@@ -104,17 +120,19 @@ $genres = $stmt->fetchAll();
 
             const urlParams = new URLSearchParams(window.location.search);
 
-            if (urlParams.has('genres')) {
-                urlParams.delete('genres');
+            if (urlParams.has('page')) {
+                urlParams.delete('page');
             }
-            genres.forEach((genre) => urlParams.append('genres', genre));
+
+            if (urlParams.has('genres[]')) {
+                urlParams.delete('genres[]');
+            }
+            genres.forEach((genre) => urlParams.append('genres[]', genre));
 
             const newGenresQueryString = urlParams.toString();
             if (newGenresQueryString !== "") {
-                const updatedUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + newGenresQueryString;
-                window.history.replaceState({
-                    path: updatedUrl
-                }, '', updatedUrl);
+                window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + newGenresQueryString;
+
             }
 
         }

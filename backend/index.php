@@ -42,6 +42,9 @@ if (isset($_SESSION['user'])) {
     $r->addRoute('/library', 'pages/library.php');
     $r->addRoute('/library/favorite', 'pages/favorite.php');
     $r->addRoute('/auth/logout', 'scripts/logout.php');
+    $r->addRoute('/user', 'pages/user.php');
+    $r->addRoute('/user/addfilm', 'pages/addFilm.php');
+    $r->addRoute('/addfilm', 'scripts/addfilm.php');
 } else {
     $r->addRoute('/auth/signup', 'pages/signUp.php');
     $r->addRoute('/auth/login', 'pages/logIn.php');

@@ -5,19 +5,38 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
     exit;
 }
 
-require __DIR__ . '/../vendor/autoload.php';
-
 use Palmo\Core\service\Db;
-use Palmo\Core\service\Validation;
+use Palmo\Core\service\FilmsService;
+
 
 $db = new Db();
 $dbh = $db->getHandler();
 
-
+$filmsService = new FilmsService($dbh);
 
 $page = $_GET['page'] ?? 1;
 $search = $_GET['search'] ?? '';
 $sort = $_GET['sort'] ?? '';
+$isMore = $_GET['more'] ?? false;
+$genresArr = isset($_GET['genres']) ? $_GET['genres'] : [];
+
+$genreSelectors = [];
+foreach ($genresArr as $idStr) {
+    $id = (int)$idStr;
+    if (is_int($id) && $id !== 0) {
+        $genreSelectors[] = "'$id' = film_genre.genre_id ";
+    }
+}
+$genresString = implode(' OR ', $genreSelectors);
+
+$countGenres = count($genreSelectors);
+$genresFiltre = $countGenres > 0 ? "AND films.id IN (SELECT film_genre.film_id
+FROM film_genre
+WHERE $genresString
+GROUP BY film_genre.film_id
+HAVING COUNT(film_genre.genre_id)= '$countGenres')
+" : '';
+
 $url = $params['url'];
 
 $switchSort = match ($sort) {
@@ -32,64 +51,19 @@ $switchSort = match ($sort) {
     default => "release_date desc"
 };
 
-$stmt = $dbh->prepare("SELECT COUNT(*) AS total_records
-FROM (
-    SELECT films.id
-    FROM films
-    JOIN film_genre ON films.id = film_genre.film_id
-    JOIN genres ON film_genre.genre_id = genres.id
-    JOIN vote ON vote.film_id = films.id
-    WHERE films.title LIKE CONCAT('%', :search, '%')
-    GROUP BY films.id
-) AS subquery;");
-
-$stmt->bindParam(':search', $search);
-// $stmt->bindParam(':userId', $user['id']);
-// $stmt->bindParam(':validUntil', $validUntil);
-$stmt->execute();
-$total = $stmt->fetch()['total_records'];
-
-
-
+$total = $filmsService->getTotalFilmsCount($search, $genresFiltre);
 
 $maxFillPage =  18;
 $maxPage = ceil($total / $maxFillPage);
-
-
 
 if ($maxPage < $page || $page < 1) {
     $page = $maxPage;
 }
 
-
 $startItem = $maxFillPage * ($page - 1);
-// SELECT avg(*) FROM vote WHERE film_id = 1047925;
-$stmt = $dbh->prepare("SELECT
-films.id,
-films.title AS title,
-films.release_date AS release_date,
-films.backdrop_path,
-CONCAT_WS(', ', GROUP_CONCAT(DISTINCT genres.name)) AS genres,
-AVG(vote.mark) AS vote,
-COUNT(DISTINCT vote.id)  AS votes,
- COUNT(DISTINCT popularity.id) AS popularity
-FROM films
-JOIN film_genre ON films.id = film_genre.film_id
-JOIN genres ON film_genre.genre_id = genres.id
-JOIN vote ON vote.film_id = films.id
-JOIN 
-popularity ON popularity.film_id = films.id
-WHERE films.title LIKE CONCAT('%', :search, '%')
-GROUP BY films.id
-ORDER BY " . $switchSort . "
-LIMIT :maxFillPage OFFSET :startItem;");
-$stmt->bindParam(':search', $search);
-$stmt->bindParam(':maxFillPage', $maxFillPage);
-$stmt->bindParam(':startItem', $startItem);
-// $stmt->bindParam(':sort', $switchSort);
 
-$stmt->execute();
-$films = $stmt->fetchAll();
+$films = $filmsService->getFilms($search, $genresFiltre, $switchSort, $maxFillPage, $startItem);
+
 ?>
 
 
@@ -138,4 +112,3 @@ $films = $stmt->fetchAll();
 
 </html>
 <?php
-dd($_GET);
