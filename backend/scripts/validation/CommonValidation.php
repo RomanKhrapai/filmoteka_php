@@ -34,6 +34,7 @@ trait CommonValidation
     }
     public static function validateMinSizeFile($data, $minSize)
     {
+
         return $data['size'] >= $minSize;
     }
     public static function validateTypeFile($data, $typeArray)
@@ -46,12 +47,13 @@ trait CommonValidation
     }
     public static function validateFileMinHeight($data, $minSize)
     {
-        $height = getimagesize($data['tmp_name'])[0];
+        print_r(getimagesize($data['tmp_name']));
+        $height = getimagesize($data['tmp_name'])[1];
         return  $height > $minSize;
     }
     public static function validateFileMinWidth($data, $minSize)
     {
-        $width = getimagesize($data['tmp_name'])[1];
+        $width = getimagesize($data['tmp_name'])[0];
         return     $width > $minSize;
     }
     public static function validateisArray($data)
@@ -60,11 +62,15 @@ trait CommonValidation
     }
     public static function validateisEmptyArray($data)
     {
-        return empty($data);
+        return !empty($data);
     }
     public static function validateisItemArrayNumber($data)
     {
-
-        return ctype_digit($data);
+        foreach ($data as $item) {
+            if (ctype_digit($item)) {
+                return true;
+            };
+        }
+        return false;
     }
 }

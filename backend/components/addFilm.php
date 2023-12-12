@@ -30,7 +30,7 @@ $genres = $genresService->getGenres();
     <br>
 
     <label>Image:
-        <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+        <input type="hidden" name="MAX_FILE_SIZE" value="300000" />
         <input type="file" name="img" accept="image/*">
     </label>
     <br>

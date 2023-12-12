@@ -21,20 +21,15 @@ $about = strip_tags($_POST['about']);
 
 $_SESSION['errorsForm'] = [];
 
-$errors['title'] =  Validation::validate('title', $_POST['title']);
-$errors['date'] =  Validation::validate('date', $_POST['date']);
-$errors['img'] =  Validation::validate('img', $_POST['img']);
-$errors['genres'] =  Validation::validate('genres', $_POST['genres']);
-$errors['about'] =  Validation::validate('about', $_POST['about']);
-
-echo "<img class='modal__img' src='{$file['tmp_name']}' alt='All Ladies Do It'>";
-
-$qwe = move_uploaded_file($file['tmp_name'], 'storege/11111.jpg');
-echo "<img class='modal__img' src='storege/11111.jpg' alt='All Ladies Do It'>";
-
-dd($_POST, $file, $qwe, getimagesize('storege/img/1aExL5DTGHj25ZfIC3dDwS84RWi.jpg'));
+$errors['title'] =  Validation::validate('title', $title);
+$errors['date'] =  Validation::validate('date', $date);
+$errors['img'] =  Validation::validate('image', $file);
+$errors['genres'] =  Validation::validate('genres', $genres);
+$errors['about'] =  Validation::validate('about', $about);
 
 
+
+dd($errors, $file, $_POST);
 
 foreach ($errors as $key => $error) {
     if ($error) {
@@ -43,7 +38,11 @@ foreach ($errors as $key => $error) {
 }
 
 if (!empty($_SESSION['errorsForm'])) {
-    // $_SESSION['formData']['email'] = $email;
+    $_SESSION['formData']['title'] = $title;
+    $_SESSION['formData']['date'] = $date;
+    $_SESSION['formData']['genres'] = $genres;
+    $_SESSION['formData']['img'] = $img;
+    $_SESSION['formData']['about'] = $about;
     header("Location: /user?addfilm");
 
     exit();
