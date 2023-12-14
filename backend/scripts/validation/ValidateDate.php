@@ -12,12 +12,8 @@ class ValidateDate implements ValidationRules
     {
         return  match (false) {
             self::validateEmpty($data) => "Date is required",
+            self::validateDateFormat($data, 'Y-m-d') => "Date format is not correct",
             default => null
         };
-    }
-
-    static function validateDateFormat($data)
-    {
-        return date_create_from_format('Y-m-d', $data);
     }
 }

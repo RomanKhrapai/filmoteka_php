@@ -43,11 +43,10 @@ trait CommonValidation
     }
     public static function validateisFile($data)
     {
-        return  is_uploaded_file($data['tmp_name']);
+        return  is_uploaded_file($data['tmp_name'] ?? null);
     }
     public static function validateFileMinHeight($data, $minSize)
     {
-        print_r(getimagesize($data['tmp_name']));
         $height = getimagesize($data['tmp_name'])[1];
         return  $height > $minSize;
     }
@@ -72,5 +71,10 @@ trait CommonValidation
             };
         }
         return false;
+    }
+
+    static function validateDateFormat($data, $format)
+    {
+        return date_create_from_format($format, $data);
     }
 }

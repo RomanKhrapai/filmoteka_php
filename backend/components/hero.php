@@ -10,7 +10,7 @@ $genres = $stmt->fetchAll();
     <div class="hero__form">
         <div class="hero__heder">
             <form class="hero__search_form" method="get" action="/films">
-                <input class=" hero__block_default hero__input" value="<?= $search  ?>" type="search" name="search" id="input" minlength="2" required autocomplete="off" placeholder="search text">
+                <input class=" hero__block_default hero__input" value="<?= $search  ?>" type="search" name="search" id="input" minlength="2" autocomplete="off" placeholder="search text">
                 <button class=" hero__block_default hero__search-button" aria-label="search" type="submit">
                     <svg class="hero__search_icon ">
                         <use xlink:href="#icon-search"></use>
@@ -51,20 +51,6 @@ $genres = $stmt->fetchAll();
                     </label>";
                 } ?>
             </div>
-            <!-- <div id="range-container">
-                <label for="range">Виберіть діапазон:</label>
-                <input type="range" id="range-from" min="0" max="100" step="1" value="0">
-                <input type="range" id="range-to" min="0" max="100" step="1" value="100">
-                <div id="range-values">Від: <span id="range-from-value">0</span> До: <span id="range-to-value">100</span></div>
-            </div> -->
-            <!-- <label for="cars">Choose a car:</label>
-
-            <select name="cars[]" id="cars" multiple>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="opel">Opel</option>
-                <option value="audi">Audi</option>
-            </select> -->
 
             <div class="hero__box_center"><button class=" hero__block_default  hero__btn_filter" aria-label="search" type="submit">
                     apply filters

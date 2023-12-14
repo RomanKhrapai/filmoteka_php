@@ -29,7 +29,7 @@
     flex-direction: column;
 }
 
-.auth__input {
+.form__input {
     /* margin-bottom: 20px; */
     width: 100%;
 }
@@ -40,7 +40,7 @@
 }
 
 .custom-input {
-    height: 40px;
+    /* height: 40px; */
     width: 100%;
     border: 2px solid #897e86;
     font-size: 18px;
@@ -54,7 +54,7 @@
     border: 2px solid red;
 }
 
-.auth__btn {
+.form__btn {
     margin-top: 15px;
     width: 100%;
 }
@@ -100,4 +100,16 @@
     width: 100%;
     padding-bottom: 15px;
     align-items: center;
+}
+
+.custom-file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.form__input_file {
+    cursor: pointer;
 }
