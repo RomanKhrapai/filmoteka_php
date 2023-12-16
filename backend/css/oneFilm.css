@@ -266,17 +266,3 @@
     margin-bottom: 10px;
     line-height: 1.33;
 }
-
-.main__btn {
-    background-color: var(--bg-primary-color);
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.33;
-    text-transform: uppercase;
-    text-align: center;
-    cursor: pointer;
-    height: 44px;
-    width: 112px;
-    user-select: none;
-    border: 1px solid;
-}

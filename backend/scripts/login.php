@@ -9,6 +9,12 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 use Palmo\Core\service\Db;
 use Palmo\Core\service\Validation;
+use Palmo\Core\service\AuthService;
+
+
+$db = new Db();
+$dbh = $db->getHandler();
+$authService = new AuthService($dbh);
 
 $db = new Db();
 $dbh = $db->getHandler();
@@ -39,11 +45,8 @@ if (!empty($_SESSION['errorsForm'])) {
     unset($_SESSION['formData']);
 }
 
-$stmt = $dbh->prepare("SELECT * FROM users WHERE email = :email");
-$stmt->bindParam(':email', $email);
-$stmt->execute();
-$user = $stmt->fetch();
 
+$user  = $authService->getUserByMail($email);
 
 if (!empty($user)) {
     if (password_verify($password, $user['password'])) {
@@ -53,12 +56,7 @@ if (!empty($user)) {
         $validUntil = time() + (60 * 60  * 24);
         setcookie('SES', $token, $validUntil, '/');
 
-        $stmt = $dbh->prepare("INSERT INTO `tokens`( `token`, `user_id`, `validUntil`)  VALUES (:token,:userId,FROM_UNIXTIME(:validUntil))");
-        $stmt->bindParam(':token', $token);
-        $stmt->bindParam(':userId', $user['id']);
-        $stmt->bindParam(':validUntil', $validUntil);
-        $stmt->execute();
-        $result = $stmt->fetch();
+        $authService->setToken($user['id'], $token, $validUntil);
 
         header("Location: /");
         exit();

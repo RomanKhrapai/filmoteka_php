@@ -33,8 +33,6 @@ foreach ($errors as $key => $error) {
     }
 }
 
-
-
 if (!empty($_SESSION['errorsForm'])) {
     $_SESSION['formData']['username'] = $username;
     $_SESSION['formData']['email'] = $email;
@@ -44,7 +42,6 @@ if (!empty($_SESSION['errorsForm'])) {
 } else {
     unset($_SESSION['errorsForm']);
     unset($_SESSION['formData']);
-    // $_SESSION['formData']['rules'] = $rules;
 }
 
 $stmt = $dbh->prepare("SELECT * FROM users WHERE email = :email");

@@ -65,7 +65,6 @@ $genres = $genresService->getGenres();
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     $(document).ready(function() {
-        console.log(11111);
         $('#fileInput').change(function() {
 
             if (this.files.length > 0) {
@@ -98,7 +97,7 @@ $genres = $genresService->getGenres();
                 });
             }
         });
-        <?= $_SESSION['success'] ? "setTimeout(() => {
+        <?= $_SESSION['success'] ?? null ? "setTimeout(() => {
     const filmMessageElement = document.getElementById('film-message');
     if (filmMessageElement) {
         filmMessageElement.remove();
@@ -106,7 +105,6 @@ $genres = $genresService->getGenres();
 }, 3000);" : "" ?>
     });
 </script>
-
 
 <?PHP
 $_SESSION['success'] = null;

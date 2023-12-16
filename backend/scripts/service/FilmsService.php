@@ -14,10 +14,23 @@ class FilmsService extends Films
 
         $this->dbh = $dbh;
     }
+    public function deleteFilm($id)
+    {
+        try {
+            $stmt = $this->dbh->prepare("DELETE FROM films WHERE `films`.`id` = :id");
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return  $stmt->fetch();
+        } catch (\PDOException $e) {
+            // echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
 
     public function getTotalFilmsCount($search, $genresFiltre)
     {
-        $stmt = $this->dbh->prepare("SELECT COUNT(*) AS total_records
+        try {
+            $stmt = $this->dbh->prepare("SELECT COUNT(*) AS total_records
             FROM (
                 SELECT films.id
                 FROM films
@@ -27,14 +40,19 @@ class FilmsService extends Films
                 WHERE films.title LIKE CONCAT('%', :search, '%') $genresFiltre
                 GROUP BY films.id
             ) AS subquery;");
-        $stmt->bindParam(':search', $search);
-        $stmt->execute();
-        return $stmt->fetch()['total_records'];
+            $stmt->bindParam(':search', $search);
+            $stmt->execute();
+            return $stmt->fetch()['total_records'];
+        } catch (\PDOException $e) {
+            // echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 
     public function getFilms($search, $genresFiltre, $switchSort, $maxFillPage, $startItem)
     {
-        $stmt = $this->dbh->prepare("SELECT
+        try {
+            $stmt = $this->dbh->prepare("SELECT
             films.id,
             films.title AS title,
             films.release_date AS release_date,
@@ -52,18 +70,27 @@ class FilmsService extends Films
             GROUP BY films.id
             ORDER BY $switchSort
             LIMIT :maxFillPage OFFSET :startItem;");
-        $stmt->bindParam(':search', $search);
-        $stmt->bindParam(':maxFillPage', $maxFillPage);
-        $stmt->bindParam(':startItem', $startItem);
-        $stmt->execute();
-        return $stmt->fetchAll();
+            $stmt->bindParam(':search', $search);
+            $stmt->bindParam(':maxFillPage', $maxFillPage);
+            $stmt->bindParam(':startItem', $startItem);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            // echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
     public function getLastId()
     {
-        $stmt = $this->dbh->prepare("SELECT MAX(`id`) AS id FROM `films`;");
+        try {
+            $stmt = $this->dbh->prepare("SELECT MAX(`id`) AS id FROM `films`;");
 
-        $stmt->execute();
-        return $stmt->fetch()['id'];
+            $stmt->execute();
+            return $stmt->fetch()['id'];
+        } catch (\PDOException $e) {
+            // echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 
     public function getFilm($id)
@@ -76,6 +103,7 @@ class FilmsService extends Films
         films.backdrop_path,
         overview,
         CONCAT_WS(', ', GROUP_CONCAT(DISTINCT genres.name)) AS genres,
+        CONCAT_WS(', ', GROUP_CONCAT(DISTINCT genres.id)) AS genres_id,
         AVG(vote.mark) AS vote,
         COUNT(DISTINCT vote.id)  AS votes,
          COUNT(DISTINCT popularity.id) AS popularity
@@ -103,6 +131,7 @@ class FilmsService extends Films
             return false;
         }
     }
+
 
     public function getComents($id)
     {
@@ -181,7 +210,77 @@ class FilmsService extends Films
 
             return true;
         } catch (\PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            // echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function setFilm($id, $title, $date, $genres, $img_url, $about)
+    {
+        $arrGenres = [];
+        foreach ($genres as $value) {
+            $arrGenres[] = "('$id ','$value')";
+        }
+
+        try {
+            $stmt = $this->dbh->prepare("
+            UPDATE `films` 
+            SET `title` = :title, 
+                `backdrop_path` = :img_url, 
+                `overview` = :about, 
+                `release_date` = :release_date
+            WHERE `id` = :id
+        ");
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':title', $title);
+            $stmt->bindParam(':release_date', $date);
+            $stmt->bindParam(':img_url', $img_url);
+            $stmt->bindParam(':about',  $about);
+            $stmt->execute();
+            $stmt->fetch();
+
+            $stmt = $this->dbh->prepare("
+            DELETE FROM `film_genre` WHERE `film_id` = :id
+        ");
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+            $stmt = $this->dbh->prepare("
+            INSERT INTO `film_genre`(`film_id`, `genre_id`) VALUES
+            " . implode(",", $arrGenres) . ";
+        ");
+            $stmt->execute();
+
+            return true;
+        } catch (\PDOException $e) {
+            // echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getLastFilms()
+    {
+        try {
+            $stmt = $this->dbh->prepare("
+            SELECT
+            films.id,
+            films.title AS title,
+            films.release_date AS release_date,
+            films.backdrop_path,
+            CONCAT_WS(', ', GROUP_CONCAT(DISTINCT genres.name)) AS genres,
+           MAX(popularity.date_create) AS date
+            FROM films
+            JOIN film_genre ON films.id = film_genre.film_id
+            JOIN genres ON film_genre.genre_id = genres.id
+            JOIN popularity ON popularity.film_id = films.id
+            GROUP BY films.id
+           ORDER BY date DESC
+          LIMIT 21 OFFSET 0;
+          ");
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            // echo "Error: " . $e->getMessage();
             return false;
         }
     }

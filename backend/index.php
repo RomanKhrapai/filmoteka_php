@@ -4,8 +4,6 @@ require_once 'vendor/autoload.php';
 
 session_start();
 
-
-
 use Palmo\Core\service\Db;
 
 if (isset($_COOKIE['SES'])) {
@@ -41,11 +39,15 @@ $url = $_SERVER['REQUEST_URI'];
 $r = new Router();
 if (isset($_SESSION['user'])) {
     $r->addRoute('/library', 'pages/library.php');
-    $r->addRoute('/library/favorite', 'pages/favorite.php');
     $r->addRoute('/auth/logout', 'scripts/logout.php');
     $r->addRoute('/user', 'pages/user.php');
     $r->addRoute('/addfilm', 'scripts/addfilm.php');
+    $r->addRoute('/addfilm/$id', 'scripts/addfilm.php');
+    $r->addRoute('/films/$id/$delete', 'pages/oneFilm.php');
     $r->addRoute('/uploadimg', 'scripts/uploadimg.php');
+    $r->addRoute('/set/$id/$option', 'scripts/setParametr.php');
+    $r->addRoute('/setvote/$id', 'scripts/setVote.php');
+    $r->addRoute('/delete/$id', 'scripts/filmDelete.php');
 } else {
     $r->addRoute('/auth/signup', 'pages/signUp.php');
     $r->addRoute('/auth/login', 'pages/logIn.php');

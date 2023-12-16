@@ -51,7 +51,7 @@ if (empty($_SESSION['errorsForm'])) {
             unset($_SESSION['errorsForm']);
             unset($_SESSION['formData']);
             $_SESSION['success'] = true;
-            header("Location: /user?addfilm");
+            header("Location: /films/$newId");
 
             exit();
         }

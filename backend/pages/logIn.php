@@ -6,9 +6,7 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
     header("Location: /");
     exit;
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,11 +47,9 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
                                  class='form__input custom-input error__input' >
                              <span class='auth-error'>{$_SESSION['errorsForm']['password']}</span>"
                                 : "<input type='password' autocomplete='current-password' placeholder='password' name='password'
-                                class='form__input custom-input' >";
-                            // dd($_SESSION['errorsForm']);
+                                class='form__input custom-input' >";                      
                             ?>
-                            <!-- <input type="password" autocomplete="current-password" placeholder="password" name="password" class="form__input custom-input"> -->
-                        </label>
+                                 </label>
                         <button class="form__btn btn form__btn" type="submit">
                             submit</button>
                     </form>
@@ -63,20 +59,9 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
         </div>
 
     </div>
-    <!-- <div class="container">
-        <form class="login-form">
-            <h2>Вхід</h2>
-            <label for="username">Логін:</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit">Увійти</button>
-        </form>
-    </div> -->
 </body>
 
 </html>
-<?php unset($_SESSION['errorsForm']);
+<?php
+ unset($_SESSION['errorsForm']);
 unset($_SESSION['formData']);

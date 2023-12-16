@@ -45,9 +45,13 @@ trait CommonValidation
     {
         return  is_uploaded_file($data['tmp_name'] ?? null);
     }
+    public static function validateFileNoImage($data)
+    {
+        return !getimagesize($data['tmp_name']) ? false : true;
+    }
     public static function validateFileMinHeight($data, $minSize)
     {
-        $height = getimagesize($data['tmp_name'])[1];
+        $height = getimagesize($data['tmp_name'])[1] ?? 0;
         return  $height > $minSize;
     }
     public static function validateFileMinWidth($data, $minSize)

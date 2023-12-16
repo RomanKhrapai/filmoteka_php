@@ -1,13 +1,13 @@
 <div class="reviews_header">
     <h3>Коментарі</h3>
 
-    <span class="">Додати коментар</span></button>
+    <!-- <span class="">Додати коментар</span></button> -->
 </div>
 <ul class="reviews_list">
     <?php
-    // dd($comments);
     foreach ($comments as $coment) {
         $remove = '';
+
 
         if (!empty($_SESSION['user']['id']) && $coment['user_id'] === $_SESSION['user']['id']) {
             $remove = '<button type="button" class="">Змінити</button>

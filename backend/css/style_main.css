@@ -11,6 +11,7 @@
 @import url('pagination.css');
 
 .container {
+    position: relative;
     margin-left: auto;
     margin-right: auto;
     padding-right: 20px;
@@ -37,4 +38,64 @@
     background-color: aqua;
     padding: 20px;
     border-radius: 10px;
+}
+
+.main__btn_box {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.main__btn,
+.main__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: var(--accent-color);
+    margin: 20px 0;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.33;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    height: 44px;
+    width: 112px;
+    user-select: none;
+    border: 1px solid;
+}
+
+.rating {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--accent-color);
+}
+
+.main__link_icon {
+    display: flex;
+    height: 35px;
+    width: 35px;
+    margin-bottom: 18px;
+}
+
+.main__control {
+    position: absolute;
+    top: 10px;
+    right: 100px;
+}
+
+.deleteForm {
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    translate: 50%;
+    background-color: coral;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.deleteForm_control {
+    display: flex;
+    justify-content: space-evenly;
 }

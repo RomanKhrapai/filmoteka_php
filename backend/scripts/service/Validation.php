@@ -13,7 +13,6 @@ use Palmo\Core\validation\ValidateGenres;
 use Palmo\Core\validation\ValidateAbout;
 use Palmo\Core\validation\ValidateImage;
 
-
 class Validation
 {
     static function validate($type, $data)

@@ -11,8 +11,6 @@
                 <span class="header__logo">Filmoteka</span>
             </a>
 
-            <!-- <div class="flex-thumb"> -->
-
             <nav class="site-nav">
 
                 <ul class="site-nav__list">
@@ -48,8 +46,6 @@
                     <div class="auth__item"> <a class="auth__link" href="/auth/logout">LOG OUT</a></div>';
                 ?>
             </div>
-
-            <!-- </div> -->
 
         </header>
 
